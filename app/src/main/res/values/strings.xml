@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ForwardMe</string>
+    <string name="country_flag">Country Flag</string>
+    <string name="change_number">Change Number</string>
+    <string name="currently_forwarding_number_to">Currently forwarding messages to</string>
+    <string name="save">Save</string>
+    <string name="enter_phone_number">Enter phone number</string>
+</resources>
