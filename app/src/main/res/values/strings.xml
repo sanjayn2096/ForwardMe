@@ -5,4 +5,11 @@
     <string name="currently_forwarding_number_to">Currently forwarding messages to</string>
     <string name="save">Save</string>
     <string name="enter_phone_number">Enter phone number</string>
+    <string name="forward_messages_from_number">Forward Messages from Number</string>
+    <string name="set_phone_number">Set Phone Number</string>
+    <string name="forward_messages_containing_following_text">Forward Messages containing following Text (Separate keywords with comma)</string>
+    <string name="and_or">AND/OR</string>
+    <string name="enter_text_to_filter">Enter Text to Filter</string>
+    <string name="save_filter">Save Filter</string>
+    <string name="change_message_filter">Change Message Filter</string>
 </resources>
