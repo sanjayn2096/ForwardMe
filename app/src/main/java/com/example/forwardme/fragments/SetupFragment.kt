@@ -1,8 +1,9 @@
-package com.example.forwardme
+package com.example.forwardme.fragments
 
 import android.content.Context
 import android.os.Bundle
 import android.telephony.TelephonyManager
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -10,12 +11,14 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.forwardme.Adapters.CountryCodeAdapter
 import com.example.forwardme.Data.Country
 import com.example.forwardme.Data.ForwardingViewModel
+import com.example.forwardme.R
+import com.example.forwardme.utils.Utils
 
 class SetupFragment : Fragment(R.layout.fragment_setup) {
-
     private lateinit var countryCodeSpinner: Spinner
     private lateinit var phoneNumberEditText: EditText
     private lateinit var saveButton: Button
@@ -29,46 +32,48 @@ class SetupFragment : Fragment(R.layout.fragment_setup) {
         phoneNumberEditText = view.findViewById(R.id.phoneNumberEditText)
         saveButton = view.findViewById(R.id.saveButton)
 
-        val countries = getCountries()
+        val countries = Utils().getCountries()
+
         val adapter = CountryCodeAdapter(requireContext(), countries)
         countryCodeSpinner.adapter = adapter
 
-        saveButton.setOnClickListener {
-            //TODO: Should get country code where User's sim is registered
-            val selectedCountry = countryCodeSpinner.selectedItem as Country
-            val phoneNumber = phoneNumberEditText.text.toString()
-            if (isValidPhoneNumber(phoneNumber)) {
-                val fullNumber = selectedCountry.code + phoneNumber
-                viewModel.saveForwardNumber(fullNumber)
-                checkCountryCode(selectedCountry.code)
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.container, LandingFragment())
-                    .addToBackStack(null)
-                    .commit()
-            } else {
-                Toast.makeText(requireContext(), "Invalid phone number", Toast.LENGTH_SHORT).show()
+        val setupIsDone = arguments?.getBoolean("setupIsDone") ?: false
+        Log.d("SetupFragment", "setup is done in setup fragment = $setupIsDone")
+        if (setupIsDone) {
+            findNavController().navigate(R.id.action_setupFragment_to_landingFragment)
+        } else {
+            saveButton.setOnClickListener {
+                //TODO: Should get country code where User's sim is registered
+                val selectedCountry = countryCodeSpinner.selectedItem as Country
+                val phoneNumber = phoneNumberEditText.text.toString()
+                if (isValidPhoneNumber(phoneNumber)) {
+                    val fullNumber = selectedCountry.code + phoneNumber
+                    viewModel.saveForwardNumber(fullNumber, selectedCountry)
+                    checkCountryCode(selectedCountry.code)
+                    if (setupIsDone) {
+                        findNavController().navigate(R.id.action_setupFragment_to_messageFilterFragment)
+                    } else {
+                        findNavController().navigate(R.id.action_setupFragment_to_landingFragment)
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Invalid phone number", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
-
         loadSavedPhoneNumber()
-    }
-
-    private fun getCountries(): List<Country> {
-        return listOf(
-            Country("United States", "+1", R.drawable.flag_us),
-            Country("India", "+91", R.drawable.flag_in),
-            Country("United Kingdom", "+44", R.drawable.flag_uk)
-            // Add more countries and their flags here
-        )
     }
 
     private fun loadSavedPhoneNumber() {
         viewModel.forwardNumber.value?.let { savedNumber ->
-            val countryCode = savedNumber.takeWhile { it.isDigit() || it == '+' }
+            // Default Country Code is being assumed as +1.
+            var countryCode = "+1"
+            Log.d("SetupFragment" , "Country Code is $countryCode")
             for (i in 0 until countryCodeSpinner.count) {
                 val country = countryCodeSpinner.getItemAtPosition(i) as Country
-                if (country.code == countryCode) {
+                if (savedNumber.contains(country.code)) {
                     countryCodeSpinner.setSelection(i)
+                    countryCode = (countryCodeSpinner.getItemAtPosition(i) as Country).code
                     break
                 }
             }

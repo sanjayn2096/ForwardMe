@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/setupFragment">
+
+    <fragment
+        android:id="@+id/setupFragment"
+        android:name="com.example.forwardme.fragments.SetupFragment"
+        tools:layout="@layout/fragment_setup">
+        <argument
+            android:name="setupIsDone"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_setupFragment_to_messageFilterFragment"
+            app:destination="@id/messageFilterFragment"
+            app:popUpTo="@+id/setupFragment"
+            />
+        <action
+            android:id="@+id/action_setupFragment_to_landingFragment"
+            app:destination="@id/landingFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/messageFilterFragment"
+        android:name="com.example.forwardme.fragments.MessageFilterFragment"
+        tools:layout="@layout/fragment_message_filter">
+        <action
+            android:id="@+id/action_messageFilterFragment_to_landingFragment"
+            app:destination="@id/landingFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/landingFragment"
+        android:name="com.example.forwardme.fragments.LandingFragment"
+        tools:layout="@layout/fragment_landing">
+        <action
+            android:id="@+id/action_landingFragment_to_setupFragment"
+            app:destination="@id/setupFragment"
+            app:popUpTo="@+id/landingFragment"/>
+        <action
+            android:id="@+id/action_landingFragment_to_messageFilterFragment"
+            app:destination="@id/messageFilterFragment"
+            app:popUpTo="@+id/landingFragment"/>
+    </fragment>
+
+</navigation>
