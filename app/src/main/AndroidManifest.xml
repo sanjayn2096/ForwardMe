@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.forwardme">
+    package="com.sunj.forwardme">
 
     <uses-feature
         android:name="android.hardware.telephony"
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".Receiver.SMSReceiver"
+        <receiver android:name=".receiver.SMSReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.forwardme"
+    namespace = "com.sunj.forwardme"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.forwardme"
+        applicationId = "com.sunj.forwardme"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

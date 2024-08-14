@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/setupFragment"
-        android:name="com.example.forwardme.fragments.SetupFragment"
+        android:name="com.sunj.forwardme.fragments.SetupFragment"
         tools:layout="@layout/fragment_setup">
         <argument
             android:name="setupIsDone"
@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/messageFilterFragment"
-        android:name="com.example.forwardme.fragments.MessageFilterFragment"
+        android:name="com.sunj.forwardme.fragments.MessageFilterFragment"
         tools:layout="@layout/fragment_message_filter">
         <action
             android:id="@+id/action_messageFilterFragment_to_landingFragment"
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/landingFragment"
-        android:name="com.example.forwardme.fragments.LandingFragment"
+        android:name="com.sunj.forwardme.fragments.LandingFragment"
         tools:layout="@layout/fragment_landing">
         <action
             android:id="@+id/action_landingFragment_to_setupFragment"
